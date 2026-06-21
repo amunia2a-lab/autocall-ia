@@ -1,0 +1,10 @@
+{
+  "name": "autocall-ai-vercel-v8",
+  "version": "8.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {}
+}
