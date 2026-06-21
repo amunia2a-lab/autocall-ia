@@ -3,10 +3,11 @@ function twiml(xml) {
 }
 
 module.exports = async function handler(req, res) {
-  res.setHeader('Content-Type', 'text/xml; charset=utf-8');
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+
   res.status(200).send(twiml(`
 <Response>
-  <Gather input="speech" language="fr-FR" speechTimeout="auto" timeout="6" action="/api/collect?step=motif" method="POST">
+  <Gather input="speech" language="fr-FR" speechTimeout="auto" timeout="6" action="https://autocall-ia.vercel.app/api/collect?step=motif" method="POST">
     <Say language="fr-FR" voice="alice">
       Bonjour, vous êtes bien chez Point S Alata.
       Je suis l'assistante virtuelle du garage.
