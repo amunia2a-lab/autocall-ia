@@ -75,20 +75,38 @@ function renderConnection(){title.textContent='Connexion téléphone';subtitle.t
 let voiceData={motif:'',name:'',plate:'',tel:'',dispo:'',step:'idle',answers:[],conversationStarted:false,lastQuestion:''};
 let recognition=null;
 let voicesReady=false;
+let voiceState='idle'; // idle, speaking, waiting, listening, done
+let utteranceSeq=0;
 
-function setVoiceButton(label, listening=false){
+function setVoiceButton(label, listening=false, disabled=false){
   const btn=document.getElementById('voiceStartBtn');
   if(!btn) return;
   btn.textContent=label;
   btn.classList.toggle('listening', !!listening);
+  btn.disabled=!!disabled;
+  btn.style.opacity=disabled?'.65':'1';
+  btn.style.cursor=disabled?'not-allowed':'pointer';
+}
+
+function ask(text){
+  speak(text,()=>{
+    if(voiceState!=='done'){
+      voiceState='waiting';
+      const vs=document.getElementById('voiceStatus');
+      if(vs) vs.textContent='Quand vous êtes prête, cliquez sur “Répondre à la question”.';
+      setVoiceButton('🎙 Répondre à la question', false, false);
+    }
+  });
 }
 
 function openModal(){
   modal.style.display='flex';
   voiceData={motif:'',name:'',plate:'',tel:'',dispo:'',step:'idle',answers:[],conversationStarted:false,lastQuestion:''};
+  voiceState='idle';
+  utteranceSeq++;
   liveTranscript.innerHTML='<div class="bubble livebubble"><div class="who">Système</div>Mode test vocal prêt. Clique sur “Démarrer le test vocal”.</div>';
   const vs=document.getElementById('voiceStatus');
-  if(vs) vs.textContent='Le micro suit maintenant les étapes de la conversation : il ne redémarre plus au message d’accueil.';
+  if(vs) vs.textContent='Le micro attend votre clic entre chaque étape. Il ne redémarre plus l’accueil.';
   setVoiceButton('▶ Démarrer le test vocal');
   loadVoices();
   setTimeout(populateVoiceSelect,250);
@@ -150,7 +168,16 @@ function addLine(who,text,cls=''){
 
 function speak(text,cb){
   voiceData.lastQuestion=text;
-  if(!('speechSynthesis' in window)){ addLine('IA', text, 'livebubble'); if(cb) setTimeout(cb,400); return; }
+  const mySeq=++utteranceSeq;
+  addLine('IA', text, 'livebubble');
+  voiceState='speaking';
+  setVoiceButton('🔊 L’IA parle…', false, true);
+  const vs=document.getElementById('voiceStatus');
+  if(vs) vs.textContent='L’IA parle. Attendez la fin, puis cliquez sur “Répondre à la question”.';
+  if(!('speechSynthesis' in window)){
+    setTimeout(()=>{ if(mySeq===utteranceSeq && cb) cb(); },500);
+    return;
+  }
   speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(text);
   u.lang='fr-FR';
@@ -158,8 +185,8 @@ function speak(text,cb){
   u.rate=0.82;
   u.pitch=1.03;
   u.volume=1;
-  u.onend=()=>{ if(cb) setTimeout(cb,350); };
-  addLine('IA', text, 'livebubble');
+  u.onend=()=>{ if(mySeq===utteranceSeq && cb) setTimeout(cb,250); };
+  u.onerror=()=>{ if(mySeq===utteranceSeq && cb) setTimeout(cb,250); };
   speechSynthesis.speak(u);
 }
 
@@ -169,23 +196,34 @@ function speakSample(){
 
 function startVoiceTest(){
   populateVoiceSelect();
+  if(voiceState==='speaking'){
+    const vs=document.getElementById('voiceStatus');
+    if(vs) vs.textContent='Attendez la fin de la phrase avant de répondre.';
+    return;
+  }
+  if(voiceState==='listening') return;
+  if(voiceState==='done'){
+    const vs=document.getElementById('voiceStatus');
+    if(vs) vs.textContent='La conversation est terminée. Vous pouvez créer la demande ou fermer et relancer un test.';
+    return;
+  }
   if(!voiceData.conversationStarted){
     voiceData.conversationStarted=true;
     voiceData.step='motif';
     liveTranscript.innerHTML='';
     const welcome='Bonjour, vous êtes bien chez Point S Alata. Je suis l’assistante virtuelle du garage. Comment puis-je vous aider aujourd’hui ?';
-    setVoiceButton('🎙 Répondre à la question', true);
-    speak(welcome,()=>listenForAnswer());
+    ask(welcome);
     return;
   }
-  // Important : on ne redémarre plus l’accueil. On reprend l’étape en cours.
-  setVoiceButton('🎙 Je vous écoute...', true);
+  // Reprise de l’étape en cours : on écoute seulement quand l’utilisateur clique.
   listenForAnswer();
 }
 
 function stopVoiceTest(){
   if(recognition){ try{recognition.stop()}catch(e){} recognition=null; }
   if('speechSynthesis' in window) speechSynthesis.cancel();
+  utteranceSeq++;
+  voiceState=voiceData.conversationStarted?'waiting':'idle';
   setVoiceButton(voiceData.conversationStarted?'🎙 Répondre à la question':'▶ Démarrer le test vocal');
 }
 
@@ -203,18 +241,30 @@ function listenForAnswer(){
   recognition.continuous=false;
   recognition.interimResults=false;
   recognition.maxAlternatives=1;
-  if(vs) vs.textContent='Je vous écoute… répondez à la question en cours.';
+  voiceState='listening';
+  let gotResult=false;
+  setVoiceButton('🎙 Je vous écoute…', true, true);
+  if(vs) vs.textContent='Je vous écoute… parlez maintenant.';
   recognition.onresult=(event)=>{
+    gotResult=true;
     const text=event.results[0][0].transcript;
+    try{recognition.stop()}catch(e){}
     handleUserSpeech(text);
   };
   recognition.onerror=()=>{
-    if(vs) vs.textContent='Je n’ai pas bien entendu. Clique sur “Répondre à la question” : la conversation reprendra ici, sans redémarrer.';
+    if(voiceState==='listening') voiceState='waiting';
+    if(vs) vs.textContent='Je n’ai pas bien entendu. Cliquez sur “Répondre à la question” pour réessayer.';
     addLine('Système','Je n’ai pas bien entendu. Cliquez sur “Répondre à la question” pour continuer cette étape.');
     setVoiceButton('🎙 Répondre à la question');
   };
-  recognition.onend=()=>{ setVoiceButton('🎙 Répondre à la question'); };
-  try{recognition.start()}catch(e){ if(vs) vs.textContent='Micro déjà actif. Réessayez dans une seconde.'; }
+  recognition.onend=()=>{
+    if(!gotResult && voiceState==='listening'){
+      voiceState='waiting';
+      setVoiceButton('🎙 Répondre à la question');
+      if(vs) vs.textContent='Micro arrêté. Cliquez à nouveau pour répondre à cette même question.';
+    }
+  };
+  try{recognition.start()}catch(e){ voiceState='waiting'; setVoiceButton('🎙 Répondre à la question'); if(vs) vs.textContent='Micro déjà actif. Réessayez dans une seconde.'; }
 }
 
 function detectMotif(t){
@@ -246,7 +296,7 @@ function handleUserSpeech(text){
   if(voiceData.step==='motif'){
     voiceData.motif=detectMotif(text);
     voiceData.step='identity';
-    speak(nextQuestionForMotif(voiceData.motif),()=>listenForAnswer());
+    ask(nextQuestionForMotif(voiceData.motif));
     return;
   }
   if(voiceData.step==='identity'){
@@ -255,16 +305,16 @@ function handleUserSpeech(text){
     else voiceData.plate=normalizePlate(text);
     if(!voiceData.name && /je m.?appelle|c.est|je suis/i.test(lower)) voiceData.name=text.replace(/.*(?:je m.?appelle|c.est|je suis)\s+/i,'').trim();
     voiceData.step='contact';
-    speak('Merci. Pour que le secrétariat puisse vous recontacter, pouvez-vous me communiquer votre numéro de téléphone ?',()=>listenForAnswer());
+    ask('Merci. Pour que le secrétariat puisse vous recontacter, pouvez-vous me communiquer votre numéro de téléphone ?');
     return;
   }
   if(voiceData.step==='contact'){
     voiceData.tel=text;
     voiceData.step='availability';
     if(voiceData.motif==='Véhicule prêt ?'){
-      speak('Parfait. Souhaitez-vous être recontacté par téléphone ou plutôt recevoir un SMS ?',()=>listenForAnswer());
+      ask('Parfait. Souhaitez-vous être recontacté par téléphone ou plutôt recevoir un SMS ?');
     }else{
-      speak('Parfait. Avez-vous des disponibilités particulières pour être recontacté ?',()=>listenForAnswer());
+      ask('Parfait. Avez-vous des disponibilités particulières pour être recontacté ?');
     }
     return;
   }
@@ -275,7 +325,8 @@ function handleUserSpeech(text){
     speak(recap,()=>{
       const vs=document.getElementById('voiceStatus');
       if(vs) vs.textContent='Test terminé. Tu peux créer la demande dans AutoCall.';
-      setVoiceButton('✅ Conversation terminée');
+      voiceState='done';
+      setVoiceButton('✅ Conversation terminée', false, true);
       addLine('Résumé IA',`Motif : <b>${voiceData.motif||'Demande client'}</b><br>Client : <b>${voiceData.name||'À compléter'}</b><br>Véhicule / plaque : <b>${voiceData.plate||'À compléter'}</b><br>Téléphone : <b>${voiceData.tel||'À compléter'}</b><br>Disponibilités / préférence : <b>${voiceData.dispo||'À confirmer'}</b>`);
     });
     return;
