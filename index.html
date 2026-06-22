@@ -35,7 +35,7 @@
 <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
 <aside class="drawer" id="drawer"></aside>
 <div class="toast" id="toast"></div>
-<div class="modalbg" id="modal"><div class="modal"><div class="modalhead"><b style="color:var(--red)">● TEST VOCAL GRATUIT</b><span>Voix adoucie + reconnaissance micro</span><button class="close" onclick="closeModal()">×</button></div><div class="modalbody"><div><div class="voicebar"><button id="voiceStartBtn" class="save" onclick="startVoiceTest()">▶ Démarrer le test vocal</button><button class="act" onclick="speakSample()">Écouter la voix</button><button class="act" onclick="stopVoiceTest()">Stop</button></div><div id="liveTranscript"></div></div><div class="mini"><b>Nouvelle demande</b><p class="note">La voix est réglée plus lentement et choisit automatiquement la meilleure voix française disponible sur ton téléphone.</p><div id="voiceStatus" class="voiceHint">Clique sur “Démarrer le test vocal”, autorise le micro, puis réponds comme une cliente.</div><br><button class="save" onclick="addLiveCall()">Créer la demande</button></div></div></div></div>
+<div class="modalbg" id="modal"><div class="modal"><div class="modalhead"><b style="color:var(--red)">● TEST VOCAL GRATUIT</b><span>Voix adoucie + reconnaissance micro</span><button class="close" onclick="closeModal()">×</button></div><div class="modalbody"><div><div class="voicebar"><button id="voiceStartBtn" class="save" onclick="startVoiceTest()">▶ Démarrer le test vocal</button><button class="act" onclick="speakSample()">Écouter la voix</button><button class="act" onclick="stopVoiceTest()">Stop</button><select id="voiceSelect" class="act" style="max-width:260px" onchange="saveVoiceChoice()"><option>Chargement des voix…</option></select></div><div id="liveTranscript"></div></div><div class="mini"><b>Nouvelle demande</b><p class="note">Sélectionne une voix disponible sur ton téléphone. Si iOS ne propose qu’une voix française, le son restera proche : pour une vraie voix humaine il faudra brancher une API vocale.</p><div id="voiceStatus" class="voiceHint">Clique sur “Démarrer le test vocal”, autorise le micro, puis réponds comme une cliente.</div><br><button class="save" onclick="addLiveCall()">Créer la demande</button></div></div></div></div>
 <script>
 let view='demandes', tab='today', selected=0, drawerOpen=false;
 const calls=[
@@ -97,6 +97,28 @@ function loadVoices(){
   return voices;
 }
 
+
+function populateVoiceSelect(){
+  const sel=document.getElementById('voiceSelect');
+  if(!sel || !('speechSynthesis' in window)) return;
+  const voices=speechSynthesis.getVoices();
+  const fr=voices.filter(v=>/fr/i.test(v.lang||'') || /fran|french|thomas|amelie|audrey|marie|le[aé]|siri/i.test(v.name||''));
+  const list=fr.length?fr:voices;
+  sel.innerHTML='';
+  list.forEach((v,i)=>{
+    const opt=document.createElement('option');
+    opt.value=v.name;
+    opt.textContent=(v.name||'Voix')+' — '+(v.lang||'');
+    sel.appendChild(opt);
+  });
+  const saved=localStorage.getItem('autocall_voice_name');
+  if(saved && [...sel.options].some(o=>o.value===saved)) sel.value=saved;
+}
+function saveVoiceChoice(){
+  const sel=document.getElementById('voiceSelect');
+  if(sel) localStorage.setItem('autocall_voice_name', sel.value);
+}
+
 function bestFrenchVoice(){
   const voices=loadVoices();
   const fr=voices.filter(v=>/fr/i.test(v.lang||'') || /fran|french|thomas|amelie|audrey|marie|le[aé]/i.test(v.name||''));
@@ -119,8 +141,9 @@ function speak(text,cb){
   const u=new SpeechSynthesisUtterance(text);
   u.lang='fr-FR';
   u.voice=bestFrenchVoice();
-  u.rate=0.88;
-  u.pitch=0.96;
+  u.rate=0.82;
+  u.pitch=1.03;
+  u.volume=1;
   u.volume=1;
   u.onend=()=>{ if(cb) setTimeout(cb,350); };
   addLine('IA', text, 'livebubble');
@@ -132,6 +155,7 @@ function speakSample(){
 }
 
 function startVoiceTest(){
+  populateVoiceSelect();
   const btn=document.getElementById('voiceStartBtn');
   if(btn) btn.classList.add('listening');
   liveTranscript.innerHTML='';
