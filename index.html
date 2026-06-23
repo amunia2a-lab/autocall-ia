@@ -1,372 +1,150 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AutoCall AI — V12 Logique vocale garage</title>
-<style>
-:root{--bg:#f7f7fb;--card:#fff;--ink:#10142c;--muted:#707792;--line:#e9eaf2;--violet:#6d4cff;--soft:#f1eeff;--red:#ee3b4a;--green:#20b66a;--orange:#ff9d28;--shadow:0 22px 70px rgba(24,28,70,.09);--r:24px}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,textarea,select{font:inherit}.app{height:100vh;display:grid;grid-template-columns:235px 1fr;overflow:hidden}.side{background:#fff;border-right:1px solid var(--line);padding:25px 18px;display:flex;flex-direction:column;gap:20px}.brand{display:flex;gap:12px;align-items:center;font-size:24px;font-weight:900}.brand span{color:var(--violet)}.logo{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,#7d5cff,#4b78ff);color:white;display:grid;place-items:center}.tag{color:var(--muted);line-height:1.5}.nav{display:flex;flex-direction:column;gap:10px;margin-top:10px}.nav button{border:0;background:transparent;border-radius:16px;padding:15px;text-align:left;font-weight:800;color:#252a45;display:flex;gap:12px;align-items:center;cursor:pointer}.nav button.active{background:var(--soft);color:var(--violet)}.badge{margin-left:auto;background:var(--violet);color:#fff;border-radius:99px;padding:3px 9px;font-size:13px}.sidebox,.profile{border:1px solid var(--line);background:#fff;border-radius:18px;padding:15px;box-shadow:var(--shadow);font-size:14px}.sidebox{margin-top:auto}.profile{display:flex;align-items:center;gap:12px}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#eeeaff;color:var(--violet);font-weight:900}.profile span{display:block;color:var(--muted);font-size:13px;margin-top:2px}.main{height:100vh;overflow:auto;padding:26px}.top{display:grid;grid-template-columns:1fr auto 390px 48px;gap:18px;align-items:center;margin-bottom:22px}.hello h1{margin:0;font-size:31px;letter-spacing:-.5px}.hello p{margin:5px 0 0;color:var(--muted);font-size:16px}.live{border:1px solid #ffcbd1;background:#fff1f2;color:#d82334;border-radius:18px;padding:15px 25px;font-weight:950;display:flex;gap:10px;align-items:center;cursor:pointer}.live:before{content:"";width:12px;height:12px;border-radius:50%;background:var(--red);box-shadow:0 0 0 6px rgba(238,59,74,.12)}.search{border:1px solid var(--line);border-radius:17px;background:#fff;padding:14px 16px;width:100%}.bell{width:48px;height:48px;border:1px solid var(--line);border-radius:16px;background:#fff;display:grid;place-items:center;position:relative}.bell:after{content:'3';position:absolute;right:-6px;top:-7px;background:var(--violet);color:#fff;border-radius:99px;font-size:12px;padding:3px 7px}.workspace{display:grid;grid-template-columns:minmax(520px,1fr);gap:18px}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}.listpanel{min-height:calc(100vh - 130px)}.tabs{display:flex;height:70px;border-bottom:1px solid var(--line);padding:0 22px;gap:25px}.tab{border:0;background:#fff;color:#555d78;font-weight:900;cursor:pointer;padding:0 12px}.tab.active{color:var(--violet);box-shadow:inset 0 -3px 0 var(--violet)}.pill{display:inline-block;border-radius:99px;padding:4px 10px;background:#eeeaff;color:var(--violet);font-size:13px;font-weight:900}.pill.orange{background:#fff0dc;color:#d06b00}.pill.green{background:#e8f8ef;color:#15965a}.pill.red{background:#ffe8eb;color:#d82334}.cards{padding:22px;display:grid;gap:14px}.call{display:grid;grid-template-columns:68px 1fr auto;gap:18px;align-items:center;border:1px solid var(--line);border-radius:23px;padding:20px 22px;cursor:pointer;background:#fff;transition:.18s}.call:hover,.call.active{border-color:var(--violet);box-shadow:0 18px 42px rgba(109,76,255,.13)}.leftMark{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:13px}.dot{width:12px;height:12px;border-radius:50%}.red{background:var(--red)}.orange{background:var(--orange)}.green{background:var(--green)}.round{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#eeeaff;color:var(--violet);font-weight:950;font-size:18px}.round.o{background:#fff0dc;color:#d06b00}.round.g{background:#e8f8ef;color:#15965a}.client h3{margin:0 0 7px;font-size:20px}.client p{margin:5px 0;color:#313752}.client .mainline{font-size:17px;font-weight:850;color:#11162f}.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:14px}.arrow{border:1px solid var(--line);border-radius:15px;background:#fff;width:42px;height:42px;font-size:24px;cursor:pointer}.more{text-align:center;color:var(--violet);font-weight:900;padding:8px}.drawer{position:fixed;right:0;top:0;bottom:0;width:min(720px,52vw);background:#fff;border-left:1px solid var(--line);box-shadow:-28px 0 80px rgba(19,23,61,.16);z-index:10;transform:translateX(105%);transition:.22s ease;display:flex;flex-direction:column}.drawer.open{transform:translateX(0)}.drawerHead{padding:22px 26px;border-bottom:1px solid var(--line)}.row{display:flex;align-items:center;gap:13px;flex-wrap:wrap}.back{border:0;background:#f3f4fa;border-radius:13px;width:42px;height:42px;font-size:22px;cursor:pointer}.drawerHead h2{font-size:29px;margin:0}.contact{margin-top:17px;display:flex;gap:22px;flex-wrap:wrap;font-weight:800}.drawerBody{padding:22px;overflow:auto;display:grid;gap:18px}.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.mini{border:1px solid var(--line);border-radius:18px;padding:15px;background:#fff}.label{font-size:13px;color:var(--muted);margin-bottom:6px}.value{font-weight:950}.violet{color:var(--violet)}.note{line-height:1.5;color:#252a45}.actionbar{display:flex;gap:10px;flex-wrap:wrap}.act{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;font-weight:850;cursor:pointer}.act:hover{border-color:var(--violet);background:#fbfaff}.convTitle{display:flex;align-items:center;justify-content:space-between}.conversation{display:grid;gap:10px}.bubble{background:#f8f9fc;border:1px solid #eff0f6;border-radius:16px;padding:13px 15px;line-height:1.42}.who{font-size:12px;color:var(--muted);margin-bottom:5px}.audio{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:18px;padding:14px}.play{border:0;background:var(--violet);color:#fff;border-radius:50%;width:42px;height:42px;cursor:pointer}.wave{height:7px;flex:1;border-radius:99px;background:linear-gradient(90deg,var(--violet) 0 28%,#e3e5ef 28%)}.notes{border:1px solid var(--line);border-radius:18px;padding:15px}.notes textarea{width:100%;height:76px;border:0;background:transparent;outline:none;resize:none}.save{background:var(--violet);color:#fff;border:0;border-radius:12px;padding:11px 16px;font-weight:900;cursor:pointer}.overlay{position:fixed;inset:0;background:rgba(15,18,45,.22);z-index:9;display:none}.overlay.show{display:block}.settingsgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:22px}.setcard{border:1px solid var(--line);border-radius:18px;background:#fff;padding:18px}.setcard h3{margin:0 0 14px}.field{margin-bottom:13px}.field label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:13px;background:#fbfcff;padding:12px}.field textarea{height:95px;resize:none}.full{grid-column:1/-1}.smalltabs{display:flex;gap:8px;margin:20px 22px 0}.smalltabs button{border:1px solid var(--line);background:#fff;border-radius:13px;padding:11px 13px;font-weight:850;cursor:pointer}.smalltabs button.active{background:var(--soft);color:var(--violet);border-color:#d8d0ff}.toast{position:fixed;right:24px;bottom:24px;background:#11162f;color:#fff;border-radius:16px;padding:14px 18px;box-shadow:0 20px 60px rgba(0,0,0,.2);display:none;z-index:30}.modalbg{position:fixed;inset:0;background:rgba(16,20,44,.38);display:none;align-items:center;justify-content:center;z-index:25}.modal{width:min(860px,92vw);background:#fff;border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.22);overflow:hidden}.modalhead{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}.modalbody{padding:22px;display:grid;grid-template-columns:1fr 280px;gap:18px}.close{margin-left:auto;border:0;background:#f3f4fa;border-radius:13px;width:40px;height:40px;cursor:pointer}.livebubble{border-color:#ffcbd1;background:#fff8f9}.voicebar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.voiceHint{font-size:13px;color:var(--muted);line-height:1.45}.listening{animation:pulse 1.1s infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(109,76,255,.25)}70%{box-shadow:0 0 0 12px rgba(109,76,255,0)}100%{box-shadow:0 0 0 0 rgba(109,76,255,0)}}@media(max-width:1180px){.app{grid-template-columns:210px 1fr}.top{grid-template-columns:1fr auto 48px}.search{display:none}.drawer{width:min(760px,70vw)}}@media(max-width:850px){.app{grid-template-columns:1fr}.side{display:none}.main{padding:18px}.top{grid-template-columns:1fr}.live{justify-content:center}.workspace{grid-template-columns:1fr}.call{grid-template-columns:52px 1fr}.call .arrow{display:none}.drawer{width:100vw}.summary{grid-template-columns:1fr}.settingsgrid{grid-template-columns:1fr}.full{grid-column:auto}.modalbody{grid-template-columns:1fr}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AutoCall AI — V14</title>
+  <style>
+    :root{--bg:#f7f7fb;--card:#fff;--ink:#12172a;--muted:#6d7488;--line:#e7e8ef;--primary:#5b4bff;--soft:#f1efff;--green:#1bb66a;--orange:#f59e0b;--red:#e53935}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:var(--ink)}
+    .app{max-width:980px;margin:0 auto;min-height:100vh;background:#fff;box-shadow:0 0 0 1px var(--line)}
+    header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);z-index:5;padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#6d5cff,#48a8ff);display:grid;place-items:center;color:white;font-size:22px}.badge{font-size:12px;background:var(--soft);color:var(--primary);padding:7px 10px;border-radius:999px;font-weight:800}
+    main{padding:22px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px}.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 12px 36px rgba(16,24,40,.06);overflow:hidden}.hero{padding:26px}.hero h1{font-size:34px;line-height:1.05;margin:0 0 8px}.hero p{margin:0;color:var(--muted);font-size:16px}.status{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}.pill{padding:10px 13px;border:1px solid var(--line);border-radius:999px;background:#fff;font-weight:700;font-size:14px}.pill.live{background:#fff3f3;color:var(--red);border-color:#ffd6d6}.chat{height:520px;overflow:auto;padding:18px;background:linear-gradient(#fff,#fafaff)}.msg{border:1px solid var(--line);border-radius:22px;padding:16px 18px;margin:0 0 12px;background:#fff;box-shadow:0 8px 18px rgba(16,24,40,.04)}.msg.ai{background:#f8f9fc}.msg.client{background:#fbf8ff;border-color:#e4d8ff}.label{color:var(--muted);font-size:13px;font-weight:700;margin-bottom:6px}.text{font-size:20px;line-height:1.35;white-space:pre-wrap}.controls{padding:18px;border-top:1px solid var(--line);display:grid;gap:12px}.mic{height:70px;border:none;border-radius:22px;background:linear-gradient(135deg,#6557ff,#39a2ff);color:white;font-size:18px;font-weight:900;box-shadow:0 16px 28px rgba(91,75,255,.25)}.mic:disabled{opacity:.55;box-shadow:none}.secondary{height:50px;border:1px solid var(--line);border-radius:16px;background:#fff;font-weight:800;color:var(--ink)}.quick{display:grid;gap:10px;margin-top:12px}.quick button{border:1px solid var(--line);border-radius:18px;background:white;padding:16px;text-align:left;font-size:18px;font-weight:900;color:#2583ff}.side{padding:18px}.card{border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:12px;background:white}.card h3{margin:0 0 10px;font-size:17px}.kv{display:grid;gap:8px;color:var(--muted);font-size:14px}.kv b{color:var(--ink)}.ok{color:var(--green);font-weight:900}.warning{color:var(--orange);font-weight:900}.debug{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#101828;color:white;border-radius:18px;padding:14px;font-size:12px;line-height:1.45;max-height:190px;overflow:auto}.footer{padding:10px 22px 22px;color:var(--muted);font-size:12px;text-align:center}
+    @media (max-width:820px){.app{box-shadow:none}.brand{font-size:18px}main{grid-template-columns:1fr;padding:14px}.hero h1{font-size:29px}.side{order:-1}.chat{height:470px}.text{font-size:19px}.quick button{font-size:17px}.panel{border-radius:22px}}
+  </style>
 </head>
 <body>
 <div class="app">
-  <aside class="side">
-    <div class="brand"><div class="logo">☎</div>AutoCall <span>AI</span></div>
-    <div class="tag">Votre réceptionniste vocale intelligente pour garage.</div>
-    <nav class="nav">
-      <button id="navDemandes" class="active">☎ Demandes <span class="badge">7</span></button>
-      <button id="navClients">👥 Clients</button>
-      <button id="navSettings">⚙ Paramètres</button>
-      <button id="navConnect">🔌 Connexion téléphone</button>
-    </nav>
-    <div class="sidebox">✨ <b>IA toujours active</b><br><span style="color:var(--muted)">Aucun appel manqué, même quand l’accueil est occupé.</span></div>
-    <div class="profile"><div class="avatar">VM</div><div><b>Virginie Martin</b><span>Secrétaire</span></div></div>
-  </aside>
-  <main class="main">
-    <div class="top">
-      <div class="hello"><h1 id="title">Bonjour Virginie 👋</h1><p id="subtitle">Vous avez 7 demandes à traiter aujourd’hui.</p></div>
-      <button class="live" id="liveBtn">APPEL EN COURS</button>
-      <input class="search" placeholder="🔎 Rechercher un client, une plaque..." />
-      <div class="bell">🔔</div>
-    </div>
-    <div id="content"></div>
+  <header>
+    <div class="brand"><div class="logo">☎</div><div>AutoCall <span style="color:#5b4bff">AI</span></div></div>
+    <div class="badge">V14 anti-boucle</div>
+  </header>
+  <main>
+    <section class="panel">
+      <div class="hero">
+        <h1>Test vocal gratuit</h1>
+        <p>Cette version ne relance plus l'accueil. Chaque clic micro continue l'étape en cours.</p>
+        <div class="status"><span class="pill live" id="statePill">Prêt</span><span class="pill" id="stepPill">Étape : accueil</span></div>
+      </div>
+      <div class="chat" id="chat"></div>
+      <div class="controls">
+        <button class="mic" id="micBtn">🎙️ Démarrer le test</button>
+        <button class="secondary" id="resetBtn">↻ Nouvel appel</button>
+        <div class="quick">
+          <button data-sample="J'aimerais savoir où en est ma voiture">🚗 Véhicule prêt ?</button>
+          <button data-sample="Je voudrais faire une révision">🔧 Révision</button>
+          <button data-sample="J'ai un bruit au freinage">⚠️ Problème / panne</button>
+        </div>
+      </div>
+    </section>
+    <aside class="panel side">
+      <div class="card"><h3>Résumé créé</h3><div class="kv" id="summary"><span>Aucune demande pour l'instant.</span></div></div>
+      <div class="card"><h3>État technique</h3><div class="kv"><span><b>Version :</b> V14</span><span><b>Accueil répété :</b> <span class="ok">bloqué</span></span><span><b>Micro automatique :</b> <span class="ok">désactivé</span></span></div></div>
+      <div class="card"><h3>Journal debug</h3><div class="debug" id="debug"></div></div>
+    </aside>
   </main>
+  <div class="footer">AutoCall AI V14 — Point S Alata — prototype vocal navigateur</div>
 </div>
-<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
-<aside class="drawer" id="drawer"></aside>
-<div class="toast" id="toast"></div>
-<div class="modalbg" id="modal"><div class="modal"><div class="modalhead"><b style="color:var(--red)">● TEST VOCAL GRATUIT</b><span>Voix adoucie + reconnaissance micro</span><button class="close" onclick="closeModal()">×</button></div><div class="modalbody"><div><div class="voicebar"><button id="voiceStartBtn" class="save" onclick="startVoiceTest()">▶ Démarrer le test vocal</button><button class="act" onclick="speakSample()">Écouter la voix</button><button class="act" onclick="stopVoiceTest()">Stop</button><select id="voiceSelect" class="act" style="max-width:260px" onchange="saveVoiceChoice()"><option>Chargement des voix…</option></select></div><div id="liveTranscript"></div></div><div class="mini"><b>Nouvelle demande</b><p class="note">Sélectionne une voix disponible sur ton téléphone. Si iOS ne propose qu’une voix française, le son restera proche : pour une vraie voix humaine il faudra brancher une API vocale.</p><div id="voiceStatus" class="voiceHint">Clique sur “Démarrer le test vocal”, autorise le micro, puis réponds comme une cliente.</div><br><button class="save" onclick="addLiveCall()">Créer la demande</button></div></div></div></div>
 <script>
-let view='demandes', tab='today', selected=0, drawerOpen=false;
-const calls=[
-{name:'Jean Dupont',init:'JD',time:'10:24',dot:'red',status:'Nouveau',motif:'Révision annuelle',dispo:'Mercredi matin',tel:'06 12 34 56 78',plate:'AB-123-CD',duration:'2 min 14',veh:'Peugeot 308 — 2018 Diesel',urgence:'Aucune',prio:'Normale',note:'Le client souhaite faire la révision complète avec changement des filtres et contrôle général.',day:'today',conv:['Bonjour, Garage XYZ, je suis votre assistante virtuelle. Comment puis-je vous aider ?','Bonjour, je voudrais prendre rendez-vous pour une révision complète.','Très bien, puis-je avoir votre nom et prénom ?','Jean Dupont.','Merci. Pouvez-vous me communiquer votre numéro de téléphone ?','06 12 34 56 78.','Quel est le numéro d’immatriculation de votre véhicule ?','AB-123-CD.']},
-{name:'Marie Rossi',init:'MR',time:'09:58',dot:'orange',status:'Nouveau',motif:'Bruit au freinage',dispo:'Vendredi après-midi',tel:'06 98 76 54 32',plate:'GH-456-EF',duration:'1 min 52',veh:'Renault Clio — Essence',urgence:'À vérifier',prio:'Normale',note:'Bruit depuis quelques jours lors du freinage. Véhicule roulant.',day:'today',conv:['Bonjour, Garage XYZ, comment puis-je vous aider ?','Bonjour, j’ai un bruit quand je freine.','Depuis quand entendez-vous ce bruit ?','Depuis 2 ou 3 jours.']},
-{name:'Lucas Bernard',init:'LB',time:'09:43',dot:'orange',status:'Nouveau',motif:'Changement de pneus',dispo:'Mardi après-midi',tel:'06 45 67 89 12',plate:'CD-789-GH',duration:'1 min 08',veh:'Volkswagen Golf',urgence:'Aucune',prio:'Normale',note:'Demande de remplacement pneus avant.',day:'today',conv:['Bonjour, Garage XYZ.','Bonjour, je voudrais changer deux pneus.']},
-{name:'Sophie Martin',init:'SM',time:'09:31',dot:'green',status:'Nouveau',motif:'Climatisation ne fonctionne plus',dispo:'Pas de préférence',tel:'06 23 45 67 89',plate:'EF-321-IJ',duration:'0 min 48',veh:'Citroën C3',urgence:'Aucune',prio:'Normale',note:'La climatisation ne produit plus de froid.',day:'today',conv:['Bonjour, Garage XYZ.','Bonjour, ma clim ne fonctionne plus.']},
-{name:'Pierre Durand',init:'PD',time:'09:12',dot:'green',status:'Nouveau',motif:'Contrôle technique',dispo:'Jeudi matin',tel:'06 87 65 43 21',plate:'IJ-654-KL',duration:'1 min 21',veh:'Dacia Duster',urgence:'Aucune',prio:'Normale',note:'Souhaite contrôle avant CT.',day:'today',conv:['Bonjour, Garage XYZ.','Bonjour, je dois passer le contrôle technique.']},
-{name:'Vanina Albertini',init:'VA',time:'16:10',dot:'red',status:'À rappeler',motif:'Voyant moteur',dispo:'Aujourd’hui si possible',tel:'06 10 79 16 43',plate:'LM-222-NO',duration:'1 min 39',veh:'Fiat 500',urgence:'Possible',prio:'Prioritaire',note:'Voyant moteur allumé, client inquiète.',day:'yesterday',conv:['Bonjour, Garage XYZ.','Bonjour, j’ai un voyant moteur allumé.']},
-{name:'Monsieur Perez',init:'MP',time:'15:54',dot:'orange',status:'À rappeler',motif:'Devis pneus',dispo:'Cette semaine',tel:'07 77 34 22 44',plate:'PR-111-ZZ',duration:'0 min 19',veh:'Audi A3',urgence:'Aucune',prio:'Normale',note:'Souhaite un devis pneus.',day:'week',conv:['Bonjour, Garage XYZ.','Je voudrais un devis pour pneus.']}
-];
-const content=document.getElementById('content'), title=document.getElementById('title'), subtitle=document.getElementById('subtitle'), drawer=document.getElementById('drawer'), overlay=document.getElementById('overlay'), toastBox=document.getElementById('toast'), modal=document.getElementById('modal'), liveTranscript=document.getElementById('liveTranscript');
-document.getElementById('navDemandes').onclick=()=>{view='demandes';setNav();closeDrawer();render()};
-document.getElementById('navClients').onclick=()=>{view='clients';setNav();closeDrawer();renderClients()};
-document.getElementById('navSettings').onclick=()=>{view='settings';setNav();closeDrawer();renderSettings()};
-document.getElementById('navConnect').onclick=()=>{view='connect';setNav();closeDrawer();renderConnection()};
-document.getElementById('liveBtn').onclick=openModal;
-function setNav(){document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active')); if(view==='demandes')navDemandes.classList.add('active'); if(view==='clients')navClients.classList.add('active'); if(view==='settings')navSettings.classList.add('active'); if(view==='connect')navConnect.classList.add('active')}
-function toast(t){toastBox.textContent=t;toastBox.style.display='block';setTimeout(()=>toastBox.style.display='none',2200)}
-function filtered(){return calls.filter(c=>tab==='week'||c.day===tab)}
-function render(){title.textContent='Bonjour Virginie 👋';subtitle.textContent='Vous avez '+calls.filter(c=>c.day==='today').length+' demandes à traiter aujourd’hui.'; const list=filtered(); content.innerHTML=`<div class="workspace"><div class="panel listpanel"><div class="tabs"><button class="tab ${tab==='today'?'active':''}" onclick="tab='today';render()">Aujourd’hui <span class="pill">${calls.filter(c=>c.day==='today').length}</span></button><button class="tab ${tab==='yesterday'?'active':''}" onclick="tab='yesterday';render()">Hier <span class="pill orange">${calls.filter(c=>c.day==='yesterday').length}</span></button><button class="tab ${tab==='week'?'active':''}" onclick="tab='week';render()">Cette semaine <span class="pill green">${calls.length}</span></button></div><div class="cards">${list.map(c=>callCard(c,calls.indexOf(c))).join('')}<div class="more">Voir plus de demandes⌄</div></div></div></div>`;bindCards();}
-function callCard(c,i){return `<div class="call ${i===selected&&drawerOpen?'active':''}" data-i="${i}"><div class="leftMark"><div class="dot ${c.dot}"></div><div>${c.time}</div></div><div class="client"><h3>${c.name} <span class="pill">${c.status}</span></h3><p class="mainline">${c.motif}</p><p>Disponible ${c.dispo.toLowerCase()}</p><div class="meta"><span>☎ ${c.tel}</span><span>🚗 ${c.plate}</span><span>◷ ${c.duration}</span></div></div><button class="arrow">›</button></div>`}
-function bindCards(){document.querySelectorAll('[data-i]').forEach(el=>el.onclick=()=>{selected=+el.dataset.i;openDrawer()})}
-function openDrawer(){drawerOpen=true; drawer.innerHTML=detailHtml(calls[selected]); drawer.classList.add('open'); overlay.classList.add('show')}
-function closeDrawer(){drawerOpen=false; drawer.classList.remove('open'); overlay.classList.remove('show'); if(view==='demandes')render();}
-function detailHtml(c){return `<div class="drawerHead"><div class="row"><button class="back" onclick="closeDrawer()">←</button><h2>${c.name}</h2><span class="pill">${c.status}</span><span style="margin-left:auto;color:var(--muted)">◷ ${c.time} &nbsp; 📅 17 juin 2026</span></div><div class="contact"><span>☎ ${c.tel}</span><span>🚗 ${c.plate}</span><button class="act" onclick="view='clients';setNav();closeDrawer();renderClients()">Voir la fiche client</button></div></div><div class="drawerBody"><div><h3>Résumé IA ✨</h3><div class="summary"><div class="mini"><div class="label">Motif</div><div class="value violet">${c.motif}</div></div><div class="mini"><div class="label">Disponibilités</div><div class="value violet">${c.dispo}</div></div><div class="mini"><div class="label">Véhicule</div><div class="value">${c.veh}</div></div><div class="mini"><div class="label">Priorité</div><div class="value"><span class="pill green">${c.prio}</span></div></div></div><p class="note"><b>Infos complémentaires</b><br>${c.note}</p></div><div><h3>Actions</h3><div class="actionbar"><button class="act" onclick="toast('Appel lancé vers ${c.tel}')">☎ Appeler</button><button class="act" onclick="toast('SMS préparé pour ${c.name}')">💬 SMS</button><button class="act" onclick="toast('Email préparé pour ${c.name}')">✉ Email</button><button class="act" onclick="calls[selected].status='À rappeler';toast('Demande mise à rappeler');openDrawer();render()">🕒 À rappeler</button><button class="act" onclick="calls[selected].status='Traité';toast('Demande marquée comme traitée');openDrawer();render()">✅ Traité</button><button class="act" onclick="archiveCall()">🗑 Archiver</button></div></div><div class="audio"><button class="play" onclick="toggleAudio(this)">▶</button><div class="wave"></div><span style="color:var(--muted)">0:00 / ${c.duration.replace(' min ',':')}</span></div><div><div class="convTitle"><h3>Conversation</h3><span class="pill">Transcription complète</span></div><div class="conversation">${c.conv.map((x,i)=>`<div class="bubble"><div class="who">${i%2?'Client':'IA'} · 10:${21+Math.floor(i/2)}</div>${x}</div>`).join('')}</div></div><div class="notes"><b>Notes internes</b><textarea placeholder="Ajouter une note..."></textarea><br><button class="save" onclick="toast('Note enregistrée')">Enregistrer</button></div></div>`}
-function toggleAudio(b){b.textContent=b.textContent==='▶'?'❚❚':'▶';toast(b.textContent==='❚❚'?'Lecture audio lancée':'Lecture en pause')}
-function archiveCall(){calls.splice(selected,1);selected=0;toast('Appel archivé');closeDrawer();render()}
-function renderClients(){title.textContent='Clients';subtitle.textContent='Fiches clients et historiques.';content.innerHTML=`<div class="workspace"><div class="panel listpanel"><div class="cards"><input class="search" style="width:100%;display:block" placeholder="🔎 Rechercher un client...">${calls.map((c,i)=>`<div class="call" data-i="${i}"><div class="round ${i===1?'o':i===3?'g':''}">${c.init}</div><div class="client"><h3>${c.name}</h3><p>${c.tel}</p><div class="meta"><span>${c.plate}</span><span>${i+1} appel(s)</span></div></div><button class="arrow">›</button></div>`).join('')}</div></div></div>`;document.querySelectorAll('[data-i]').forEach(el=>el.onclick=()=>{selected=+el.dataset.i;drawer.innerHTML=clientHtml(calls[selected]);drawer.classList.add('open');overlay.classList.add('show')})}
-function clientHtml(c){return `<div class="drawerHead"><div class="row"><button class="back" onclick="closeDrawer()">←</button><h2>Fiche client</h2><span class="pill">${c.name}</span></div><div class="contact"><span>☎ ${c.tel}</span><span>🚗 ${c.plate}</span></div></div><div class="drawerBody"><div class="summary"><div class="mini"><div class="label">Nom</div><div class="value">${c.name}</div></div><div class="mini"><div class="label">Téléphone</div><div class="value">${c.tel}</div></div><div class="mini"><div class="label">Véhicule</div><div class="value">${c.veh}</div></div><div class="mini"><div class="label">Dernier motif</div><div class="value violet">${c.motif}</div></div></div><div><h3>Historique</h3><div class="bubble"><b>${c.motif}</b><br>${c.time} · ${c.duration}</div><div class="bubble"><b>Demande précédente</b><br>18 avril 2026 · Traité</div></div><div class="notes"><b>Notes client</b><textarea placeholder="Ajouter une note client..."></textarea><br><button class="save" onclick="toast('Note client enregistrée')">Enregistrer</button></div></div>`}
-function renderSettings(section='ia'){title.textContent='Paramètres';subtitle.textContent='Configuration de l’assistante.';content.innerHTML=`<div class="panel listpanel"><div class="smalltabs"><button class="${section==='ia'?'active':''}" onclick="renderSettings('ia')">Configuration IA</button><button class="${section==='tel'?'active':''}" onclick="renderSettings('tel')">Téléphonie</button><button class="${section==='notif'?'active':''}" onclick="renderSettings('notif')">Notifications</button></div>${settingsHtml(section)}</div>`}
-function settingsHtml(s){if(s==='tel')return `<div class="settingsgrid"><div class="setcard"><h3>Téléphonie</h3><div class="field"><label>Numéro connecté</label><input value="04 95 21 45 78"></div><div class="field"><label>Mode</label><select><option>Transfert d’appel vers l’IA</option><option>Numéro dédié AutoCall</option></select></div><button class="save" onclick="toast('Paramètres téléphonie enregistrés')">Enregistrer</button></div><div class="setcard"><h3>Règles d’appel</h3><div class="field"><label>Horaires</label><input value="Lundi - Vendredi · 08:00 - 18:00"></div><div class="field"><label>Si urgence</label><select><option>Créer une demande prioritaire</option><option>Transférer au secrétariat</option></select></div></div></div>`;if(s==='notif')return `<div class="settingsgrid"><div class="setcard"><h3>Notifications</h3><div class="field"><label>Email réception</label><input value="contact@garagexyz.fr"></div><div class="field"><label>SMS</label><select><option>Activé</option><option>Désactivé</option></select></div><button class="save" onclick="toast('Notifications enregistrées')">Enregistrer</button></div><div class="setcard"><h3>Alertes</h3><div class="field"><label>Nouvelle demande</label><select><option>Notification bureau + email</option><option>Email uniquement</option></select></div><div class="field"><label>Demande non traitée après</label><input value="24 heures"></div></div></div>`;return `<div class="settingsgrid"><div class="setcard"><h3>Informations générales</h3><div class="field"><label>Nom du garage</label><input value="Garage XYZ"></div><div class="field"><label>Email</label><input value="contact@garagexyz.fr"></div></div><div class="setcard"><h3>Personnalité</h3><div class="field"><label>Ton</label><select><option>Professionnel et chaleureux</option><option>Très court et direct</option></select></div><div class="field"><label>Message d’accueil</label><textarea>Bonjour, AutoCall AI, l’accueil du garage. Comment puis-je vous aider ?</textarea></div></div><div class="setcard full"><h3>Questions obligatoires</h3><div class="field"><textarea>Nom et prénom\nNuméro de téléphone\nPlaque d’immatriculation\nMotif de l’appel\nDisponibilités du client\nVéhicule roulant ou immobilisé</textarea></div><button class="save" onclick="toast('Paramètres IA enregistrés')">Enregistrer les paramètres</button></div></div>`}
+const chat = document.getElementById('chat');
+const micBtn = document.getElementById('micBtn');
+const resetBtn = document.getElementById('resetBtn');
+const statePill = document.getElementById('statePill');
+const stepPill = document.getElementById('stepPill');
+const summary = document.getElementById('summary');
+const debugEl = document.getElementById('debug');
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let speaking = false;
+let step = 'not_started';
+let data = { motif:'', categorie:'', identite:'', telephone:'', preference:'', transcription:[] };
 
-function renderConnection(){title.textContent='Connexion téléphone';subtitle.textContent='Test vocal gratuit + préparation du branchement téléphone.';content.innerHTML=`<div class="panel listpanel"><div class="cards"><div class="call" style="grid-template-columns:68px 1fr"><div class="round">1</div><div class="client"><h3>Créer le numéro test</h3><p class="mainline">Utiliser Twilio pour recevoir un appel entrant.</p><div class="meta"><span>Webhook Vercel</span><span>Audio vers IA</span><span>Mode test</span></div></div></div><div class="settingsgrid"><div class="setcard"><h3>Twilio</h3><div class="field"><label>Account SID</label><input placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxx"></div><div class="field"><label>Auth Token</label><input type="password" placeholder="••••••••••••••••"></div><div class="field"><label>Numéro Twilio test</label><input placeholder="+33 7 XX XX XX XX"></div><button class="save" onclick="toast('Configuration Twilio enregistrée en mode démo')">Enregistrer Twilio</button></div><div class="setcard"><h3>OpenAI vocal</h3><div class="field"><label>API Key</label><input type="password" placeholder="sk-..." autocomplete="off"></div><div class="field"><label>Modèle vocal</label><select><option>Realtime voice — réceptionniste IA</option><option>Mode transcription uniquement</option></select></div><div class="field"><label>Voix</label><select><option>Voix naturelle française</option><option>Voix plus neutre</option></select></div><button class="save" onclick="toast('Configuration OpenAI enregistrée en mode démo')">Enregistrer OpenAI</button></div><div class="setcard"><h3>Vercel</h3><div class="field"><label>URL de l’application</label><input value="https://autocall-ai.vercel.app"></div><div class="field"><label>Webhook appel entrant</label><input value="https://autocall-ai.vercel.app/api/voice/incoming"></div><div class="field"><label>Webhook transcription</label><input value="https://autocall-ai.vercel.app/api/calls/transcript"></div><button class="save" onclick="toast('URLs copiées pour Vercel')">Copier les URLs</button></div><div class="setcard"><h3>Test rapide</h3><p class="note">Test immédiat sans opérateur téléphonique : AutoCall parle avec une voix navigateur améliorée, écoute le micro et crée une demande dans l’interface.</p><button class="save" onclick="openModal()">Lancer le test vocal gratuit</button><br><br><button class="act" onclick="toast('Test connexion : en attente des vraies clés API')">Tester la connexion</button></div><div class="setcard full"><h3>Checklist branchement réel</h3><div class="bubble">✅ Déployer cette application sur Vercel</div><div class="bubble">⬜ Ajouter les variables d’environnement : OPENAI_API_KEY, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN</div><div class="bubble">⬜ Acheter ou valider un numéro Twilio</div><div class="bubble">⬜ Mettre le webhook Twilio sur /api/voice/incoming</div><div class="bubble">⬜ Faire un premier appel test depuis ton portable</div></div></div></div></div>`}
-
-
-let voiceData={motif:'',name:'',plate:'',tel:'',dispo:'',step:'idle',answers:[],conversationStarted:false,lastQuestion:''};
-let recognition=null;
-let voicesReady=false;
-let voiceState='idle'; // idle, speaking, waiting, listening, done
-let utteranceSeq=0;
-
-function setVoiceButton(label, listening=false, disabled=false){
-  const btn=document.getElementById('voiceStartBtn');
-  if(!btn) return;
-  btn.textContent=label;
-  btn.classList.toggle('listening', !!listening);
-  btn.disabled=!!disabled;
-  btn.style.opacity=disabled?'.65':'1';
-  btn.style.cursor=disabled?'not-allowed':'pointer';
+function log(msg){ debugEl.textContent = new Date().toLocaleTimeString('fr-FR') + ' — ' + msg + '\n' + debugEl.textContent; }
+function updatePills(){ stepPill.textContent = 'Étape : ' + step; statePill.textContent = speaking ? 'IA parle' : (recognition ? 'Écoute...' : 'Prêt'); }
+function add(role, text){
+  const div=document.createElement('div'); div.className='msg '+(role==='Client'?'client':'ai');
+  div.innerHTML='<div class="label">'+role+'</div><div class="text"></div>'; div.querySelector('.text').textContent=text;
+  chat.appendChild(div); chat.scrollTop=chat.scrollHeight; data.transcription.push({role,text});
 }
-
-function ask(text){
-  speak(text,()=>{
-    if(voiceState!=='done'){
-      voiceState='waiting';
-      const vs=document.getElementById('voiceStatus');
-      if(vs) vs.textContent='Quand vous êtes prête, cliquez sur “Répondre à la question”.';
-      setVoiceButton('🎙 Répondre à la question', false, false);
-    }
-  });
+function speak(text, nextStep){
+  add('IA', text); step = nextStep || step; recognition = null; speaking = true; micBtn.disabled = true; micBtn.textContent = '🔊 IA parle...'; updatePills();
+  if (!('speechSynthesis' in window)) { speaking=false; micBtn.disabled=false; micBtn.textContent='🎙️ Répondre'; updatePills(); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text); u.lang='fr-FR'; u.rate=.88; u.pitch=1.02;
+  const voices = window.speechSynthesis.getVoices(); const fr = voices.find(v=>/fr/i.test(v.lang)) || voices[0]; if(fr) u.voice=fr;
+  u.onend=()=>{ speaking=false; micBtn.disabled=false; micBtn.textContent = step==='not_started' ? '🎙️ Démarrer le test' : '🎙️ Répondre'; updatePills(); log('fin parole IA, attente clic utilisateur'); };
+  u.onerror=()=>{ speaking=false; micBtn.disabled=false; micBtn.textContent='🎙️ Répondre'; updatePills(); log('erreur voix navigateur'); };
+  window.speechSynthesis.speak(u);
 }
-
-function openModal(){
-  modal.style.display='flex';
-  voiceData={motif:'',name:'',plate:'',tel:'',dispo:'',step:'idle',answers:[],conversationStarted:false,lastQuestion:''};
-  voiceState='idle';
-  utteranceSeq++;
-  liveTranscript.innerHTML='<div class="bubble livebubble"><div class="who">Système</div>Mode test vocal prêt. Clique sur “Démarrer le test vocal”.</div>';
-  const vs=document.getElementById('voiceStatus');
-  if(vs) vs.textContent='Le micro attend votre clic entre chaque étape. Il ne redémarre plus l’accueil.';
-  setVoiceButton('▶ Démarrer le test vocal');
-  loadVoices();
-  setTimeout(populateVoiceSelect,250);
+function start(){
+  if(step !== 'not_started'){ listen(); return; }
+  step = 'motif'; log('démarrage conversation');
+  speak('Bonjour, vous êtes bien chez Point S Alata. Je suis l’assistante virtuelle du garage. Comment puis-je vous aider aujourd’hui ?', 'motif');
 }
-
-function closeModal(){stopVoiceTest();modal.style.display='none'}
-
-function loadVoices(){
-  if(!('speechSynthesis' in window)) return [];
-  let voices=speechSynthesis.getVoices();
-  if(!voicesReady){
-    speechSynthesis.onvoiceschanged=()=>{voicesReady=true; populateVoiceSelect();};
-    voicesReady=true;
-  }
-  return voices;
-}
-
-function populateVoiceSelect(){
-  const sel=document.getElementById('voiceSelect');
-  if(!sel || !('speechSynthesis' in window)) return;
-  const voices=speechSynthesis.getVoices();
-  const fr=voices.filter(v=>/fr/i.test(v.lang||'') || /fran|french|thomas|amelie|audrey|marie|le[aé]|siri/i.test(v.name||''));
-  const list=fr.length?fr:voices;
-  sel.innerHTML='';
-  list.forEach((v)=>{
-    const opt=document.createElement('option');
-    opt.value=v.name;
-    opt.textContent=(v.name||'Voix')+' — '+(v.lang||'');
-    sel.appendChild(opt);
-  });
-  const saved=localStorage.getItem('autocall_voice_name');
-  if(saved && [...sel.options].some(o=>o.value===saved)) sel.value=saved;
-}
-function saveVoiceChoice(){
-  const sel=document.getElementById('voiceSelect');
-  if(sel) localStorage.setItem('autocall_voice_name', sel.value);
-}
-
-function bestFrenchVoice(){
-  const voices=loadVoices();
-  const saved=localStorage.getItem('autocall_voice_name');
-  if(saved){
-    const chosen=voices.find(v=>v.name===saved);
-    if(chosen) return chosen;
-  }
-  const fr=voices.filter(v=>/fr/i.test(v.lang||'') || /fran|french|thomas|amelie|audrey|marie|le[aé]/i.test(v.name||''));
-  const preferred=['Thomas','Amelie','Amélie','Audrey','Marie','Léa','Lea','Google français','Google français de France','Microsoft Denise','Microsoft Henri','Enhanced','Premium'];
-  for(const p of preferred){
-    const found=fr.find(v=>(v.name||'').toLowerCase().includes(p.toLowerCase()));
-    if(found) return found;
-  }
-  return fr[0] || voices[0] || null;
-}
-
-function addLine(who,text,cls=''){
-  liveTranscript.innerHTML+=`<div class="bubble ${cls}"><div class="who">${who}</div>${text}</div>`;
-  liveTranscript.scrollTop=liveTranscript.scrollHeight;
-}
-
-function speak(text,cb){
-  voiceData.lastQuestion=text;
-  const mySeq=++utteranceSeq;
-  addLine('IA', text, 'livebubble');
-  voiceState='speaking';
-  setVoiceButton('🔊 L’IA parle…', false, true);
-  const vs=document.getElementById('voiceStatus');
-  if(vs) vs.textContent='L’IA parle. Attendez la fin, puis cliquez sur “Répondre à la question”.';
-  if(!('speechSynthesis' in window)){
-    setTimeout(()=>{ if(mySeq===utteranceSeq && cb) cb(); },500);
-    return;
-  }
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang='fr-FR';
-  u.voice=bestFrenchVoice();
-  u.rate=0.82;
-  u.pitch=1.03;
-  u.volume=1;
-  u.onend=()=>{ if(mySeq===utteranceSeq && cb) setTimeout(cb,250); };
-  u.onerror=()=>{ if(mySeq===utteranceSeq && cb) setTimeout(cb,250); };
-  speechSynthesis.speak(u);
-}
-
-function speakSample(){
-  speak('Bonjour, vous êtes bien chez Point S Alata. Je suis l’assistante virtuelle du garage. Comment puis-je vous aider aujourd’hui ?');
-}
-
-function startVoiceTest(){
-  populateVoiceSelect();
-  if(voiceState==='speaking'){
-    const vs=document.getElementById('voiceStatus');
-    if(vs) vs.textContent='Attendez la fin de la phrase avant de répondre.';
-    return;
-  }
-  if(voiceState==='listening') return;
-  if(voiceState==='done'){
-    const vs=document.getElementById('voiceStatus');
-    if(vs) vs.textContent='La conversation est terminée. Vous pouvez créer la demande ou fermer et relancer un test.';
-    return;
-  }
-  if(!voiceData.conversationStarted){
-    voiceData.conversationStarted=true;
-    voiceData.step='motif';
-    liveTranscript.innerHTML='';
-    const welcome='Bonjour, vous êtes bien chez Point S Alata. Je suis l’assistante virtuelle du garage. Comment puis-je vous aider aujourd’hui ?';
-    ask(welcome);
-    return;
-  }
-  // Reprise de l’étape en cours : on écoute seulement quand l’utilisateur clique.
-  listenForAnswer();
-}
-
-function stopVoiceTest(){
-  if(recognition){ try{recognition.stop()}catch(e){} recognition=null; }
-  if('speechSynthesis' in window) speechSynthesis.cancel();
-  utteranceSeq++;
-  voiceState=voiceData.conversationStarted?'waiting':'idle';
-  setVoiceButton(voiceData.conversationStarted?'🎙 Répondre à la question':'▶ Démarrer le test vocal');
-}
-
-function listenForAnswer(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  const vs=document.getElementById('voiceStatus');
-  if(!SR){
-    if(vs) vs.textContent='Reconnaissance micro indisponible sur ce navigateur. Mode démonstration automatique lancé.';
-    demoConversation();
-    return;
-  }
-  if(recognition){ try{recognition.stop()}catch(e){} }
-  recognition=new SR();
-  recognition.lang='fr-FR';
-  recognition.continuous=false;
-  recognition.interimResults=false;
-  recognition.maxAlternatives=1;
-  voiceState='listening';
-  let gotResult=false;
-  setVoiceButton('🎙 Je vous écoute…', true, true);
-  if(vs) vs.textContent='Je vous écoute… parlez maintenant.';
-  recognition.onresult=(event)=>{
-    gotResult=true;
-    const text=event.results[0][0].transcript;
-    try{recognition.stop()}catch(e){}
-    handleUserSpeech(text);
-  };
-  recognition.onerror=()=>{
-    if(voiceState==='listening') voiceState='waiting';
-    if(vs) vs.textContent='Je n’ai pas bien entendu. Cliquez sur “Répondre à la question” pour réessayer.';
-    addLine('Système','Je n’ai pas bien entendu. Cliquez sur “Répondre à la question” pour continuer cette étape.');
-    setVoiceButton('🎙 Répondre à la question');
-  };
-  recognition.onend=()=>{
-    if(!gotResult && voiceState==='listening'){
-      voiceState='waiting';
-      setVoiceButton('🎙 Répondre à la question');
-      if(vs) vs.textContent='Micro arrêté. Cliquez à nouveau pour répondre à cette même question.';
-    }
-  };
-  try{recognition.start()}catch(e){ voiceState='waiting'; setVoiceButton('🎙 Répondre à la question'); if(vs) vs.textContent='Micro déjà actif. Réessayez dans une seconde.'; }
-}
-
-function detectMotif(t){
+function classify(t){
   const s=t.toLowerCase();
-  if(/pr[eê]te|fini|termin[ée]|r[ée]par|avancement|récupérer|recuperer/.test(s)) return 'Véhicule prêt ?';
-  if(/pneu|roue|gomme|crev/.test(s)) return 'Pneus';
-  if(/r[eé]vision|vidange|entretien/.test(s)) return 'Révision';
-  if(/frein|bruit|claque|panne|d[eé]marre|voyant|batterie/.test(s)) return 'Panne / mécanique';
-  if(/facture|devis/.test(s)) return 'Administratif / devis';
-  if(/clim|climatisation|froid/.test(s)) return 'Climatisation';
-  return 'Demande client';
+  if(/pr[eê]t|ou en est|où en est|voiture|vehicule|véhicule|termin/i.test(s)) return 'vehicule_pret';
+  if(/revision|révision|vidange|entretien/i.test(s)) return 'revision';
+  if(/pneu|pneus/i.test(s)) return 'pneus';
+  if(/frein|bruit|panne|d[ée]marre|probl[eè]me/i.test(s)) return 'panne';
+  return 'general';
 }
-function normalizePlate(t){ return (t||'').toUpperCase().replace(/\s+/g,' ').trim(); }
-function isPhoneLike(t){ return /(0|\+33|0033)\s?[1-9]([\s.-]?\d{2}){4}/.test(t.replace(/zéro/gi,'0')); }
-
-function nextQuestionForMotif(motif){
-  if(motif==='Véhicule prêt ?') return 'Bien sûr. Pouvez-vous me donner votre nom ou votre immatriculation pour que l’accueil retrouve votre dossier ?';
-  if(motif==='Pneus') return 'Très bien. Pouvez-vous me donner votre immatriculation, et me préciser si c’est pour deux ou quatre pneus ?';
-  if(motif==='Révision') return 'Très bien. Pouvez-vous me donner votre nom et votre immatriculation ?';
-  if(motif==='Panne / mécanique') return 'D’accord. Le véhicule est-il encore roulant ? Et pouvez-vous me donner votre immatriculation ?';
-  if(motif==='Climatisation') return 'Très bien. La climatisation ne fait plus de froid ou il y a un bruit particulier ? Pouvez-vous aussi me donner votre immatriculation ?';
-  return 'Très bien. Pouvez-vous me donner votre nom et votre immatriculation ?';
+function handleClient(text){
+  add('Client', text);
+  if(step==='motif'){
+    data.motif=text; data.categorie=classify(text);
+    if(data.categorie==='vehicule_pret') speak('Bien sûr. Pour retrouver le dossier, pouvez-vous me donner votre nom ou votre immatriculation ?', 'identite');
+    else if(data.categorie==='revision') speak('Très bien. Pouvez-vous me donner votre nom, votre numéro de téléphone et vos disponibilités pour que l’accueil vous rappelle ?', 'infos');
+    else if(data.categorie==='pneus') speak('D’accord pour les pneus. Pouvez-vous me donner votre nom, votre téléphone, la plaque du véhicule, et si vous souhaitez deux ou quatre pneus ?', 'infos');
+    else if(data.categorie==='panne') speak('D’accord. Le véhicule est-il roulant ? Pouvez-vous aussi me donner votre nom, votre téléphone et votre plaque ?', 'infos');
+    else speak('Très bien. Pouvez-vous me donner votre nom, votre téléphone et le motif exact de votre demande ?', 'infos');
+    renderSummary(); return;
+  }
+  if(step==='identite'){
+    data.identite=text;
+    speak('Merci. Pouvez-vous me communiquer votre numéro de téléphone, et me dire si vous préférez être recontacté par appel ou par SMS ?', 'telephone_preference');
+    renderSummary(); return;
+  }
+  if(step==='telephone_preference'){
+    data.telephone=text; data.preference = /sms/i.test(text) ? 'SMS' : 'Appel';
+    speak('Parfait. Votre demande a bien été enregistrée. L’accueil va vérifier l’avancement de votre véhicule et vous recontactera rapidement. Merci, au revoir.', 'termine');
+    renderSummary(true); return;
+  }
+  if(step==='infos'){
+    data.identite=text;
+    speak('Merci, votre demande a bien été enregistrée. L’accueil vous recontactera prochainement. Au revoir.', 'termine');
+    renderSummary(true); return;
+  }
+  if(step==='termine'){
+    speak('La demande est déjà enregistrée. Pour recommencer un nouvel appel, appuyez sur Nouvel appel.', 'termine');
+  }
 }
-
-function handleUserSpeech(text){
-  addLine('Client',text);
-  voiceData.answers.push(text);
-  const lower=text.toLowerCase();
-  if(voiceData.step==='motif'){
-    voiceData.motif=detectMotif(text);
-    voiceData.step='identity';
-    ask(nextQuestionForMotif(voiceData.motif));
-    return;
-  }
-  if(voiceData.step==='identity'){
-    // On stocke l’information fournie sans forcer le client à tout répéter.
-    if(/^[a-zà-ÿ\s'-]{3,}$/i.test(text) && !/[0-9]/.test(text)) voiceData.name=text.replace(/^je suis\s+/i,'').trim();
-    else voiceData.plate=normalizePlate(text);
-    if(!voiceData.name && /je m.?appelle|c.est|je suis/i.test(lower)) voiceData.name=text.replace(/.*(?:je m.?appelle|c.est|je suis)\s+/i,'').trim();
-    voiceData.step='contact';
-    ask('Merci. Pour que le secrétariat puisse vous recontacter, pouvez-vous me communiquer votre numéro de téléphone ?');
-    return;
-  }
-  if(voiceData.step==='contact'){
-    voiceData.tel=text;
-    voiceData.step='availability';
-    if(voiceData.motif==='Véhicule prêt ?'){
-      ask('Parfait. Souhaitez-vous être recontacté par téléphone ou plutôt recevoir un SMS ?');
-    }else{
-      ask('Parfait. Avez-vous des disponibilités particulières pour être recontacté ?');
-    }
-    return;
-  }
-  if(voiceData.step==='availability'){
-    voiceData.dispo=text;
-    voiceData.step='done';
-    const recap=`Merci, votre demande est bien enregistrée. Je transmets au secrétariat : ${voiceData.motif}. Notre équipe vous recontactera prochainement.`;
-    speak(recap,()=>{
-      const vs=document.getElementById('voiceStatus');
-      if(vs) vs.textContent='Test terminé. Tu peux créer la demande dans AutoCall.';
-      voiceState='done';
-      setVoiceButton('✅ Conversation terminée', false, true);
-      addLine('Résumé IA',`Motif : <b>${voiceData.motif||'Demande client'}</b><br>Client : <b>${voiceData.name||'À compléter'}</b><br>Véhicule / plaque : <b>${voiceData.plate||'À compléter'}</b><br>Téléphone : <b>${voiceData.tel||'À compléter'}</b><br>Disponibilités / préférence : <b>${voiceData.dispo||'À confirmer'}</b>`);
-    });
-    return;
-  }
-  addLine('Système','La conversation est déjà terminée. Tu peux créer la demande ou relancer un nouveau test.');
+function listen(){
+  if(speaking) return;
+  if(step==='not_started'){ start(); return; }
+  if(step==='termine'){ speak('La demande est déjà enregistrée. Pour recommencer, appuyez sur Nouvel appel.', 'termine'); return; }
+  if(!SpeechRecognition){ log('SpeechRecognition non disponible'); alert('La reconnaissance vocale navigateur n’est pas disponible ici. Utilise les boutons exemples.'); return; }
+  const rec = new SpeechRecognition(); recognition = rec; rec.lang='fr-FR'; rec.interimResults=false; rec.maxAlternatives=1; rec.continuous=false;
+  micBtn.disabled=true; micBtn.textContent='🎧 Je t’écoute...'; updatePills(); log('écoute utilisateur étape '+step);
+  rec.onresult=(e)=>{ const text=e.results[0][0].transcript; recognition=null; micBtn.disabled=false; micBtn.textContent='🎙️ Répondre'; updatePills(); handleClient(text); };
+  rec.onerror=(e)=>{ recognition=null; micBtn.disabled=false; micBtn.textContent='🎙️ Répondre'; updatePills(); log('erreur micro '+e.error); };
+  rec.onend=()=>{ if(recognition===rec){ recognition=null; micBtn.disabled=false; micBtn.textContent='🎙️ Répondre'; updatePills(); log('fin écoute sans résultat'); } };
+  rec.start();
 }
-
-function demoConversation(){
-  const lines=[
-    ['Client','Bonjour, je voudrais savoir si ma voiture est prête.'],
-    ['IA','Bien sûr. Pouvez-vous me donner votre nom ou votre immatriculation pour que l’accueil retrouve votre dossier ?'],
-    ['Client','AB 123 CD.'],
-    ['IA','Merci. Pour que le secrétariat puisse vous recontacter, pouvez-vous me communiquer votre numéro de téléphone ?'],
-    ['Client','06 12 34 56 78.'],
-    ['IA','Parfait. Souhaitez-vous être recontacté par téléphone ou plutôt recevoir un SMS ?'],
-    ['Client','Par SMS.'],
-    ['IA','Merci, votre demande est bien enregistrée. Je transmets au secrétariat.']
+function renderSummary(done){
+  summary.innerHTML = '';
+  const rows = [
+    ['Catégorie', data.categorie || '-'], ['Motif', data.motif || '-'], ['Identité/plaque', data.identite || '-'], ['Téléphone/préférence', data.telephone || '-'], ['Statut', done ? 'Demande enregistrée' : 'En cours']
   ];
-  let i=0;
-  const run=()=>{
-    if(i>=lines.length){
-      voiceData={motif:'Véhicule prêt ?',name:'À compléter',plate:'AB-123-CD',tel:'06 12 34 56 78',dispo:'SMS',step:'done',answers:[],conversationStarted:true,lastQuestion:''};
-      addLine('Résumé IA','Motif : <b>Véhicule prêt ?</b><br>Plaque : <b>AB-123-CD</b><br>Préférence : <b>SMS</b>');
-      return;
-    }
-    const [who,text]=lines[i++];
-    if(who==='IA') speak(text,run); else { addLine(who,text); setTimeout(run,700); }
-  };
-  run();
+  rows.forEach(([k,v])=>{ const s=document.createElement('span'); s.innerHTML='<b>'+k+' :</b> '+v; summary.appendChild(s); });
 }
-
-function addLiveCall(){
-  const init=(voiceData.name||'Client test').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase()||'CT';
-  calls.unshift({
-    name:voiceData.name||'Client test',init,time:'Maintenant',dot:'red',status:'Nouveau',motif:voiceData.motif||'Demande vocale',dispo:voiceData.dispo||'À confirmer',tel:voiceData.tel||'06 00 00 00 00',plate:voiceData.plate||'À demander',duration:'Test vocal',veh:'Non renseigné',urgence:'Aucune',prio:'Normale',note:'Demande créée depuis le test vocal gratuit V10.',day:'today',conv:[...document.querySelectorAll('#liveTranscript .bubble')].map(b=>b.innerText.replace(/^IA\n|^Client\n|^Résumé IA\n|^Système\n/g,''))
-  });
-  selected=0;tab='today';view='demandes';setNav();closeModal();toast('Nouvelle demande vocale créée');render();openDrawer();
-}
-render();openDrawer()}
-render();
+function reset(){ window.speechSynthesis && window.speechSynthesis.cancel(); recognition && recognition.abort && recognition.abort(); speaking=false; recognition=null; step='not_started'; data={motif:'',categorie:'',identite:'',telephone:'',preference:'',transcription:[]}; chat.innerHTML=''; renderSummary(false); micBtn.disabled=false; micBtn.textContent='🎙️ Démarrer le test'; updatePills(); log('nouvel appel réinitialisé'); }
+micBtn.addEventListener('click', ()=> step==='not_started' ? start() : listen());
+resetBtn.addEventListener('click', reset);
+document.querySelectorAll('[data-sample]').forEach(btn=>btn.addEventListener('click',()=>{ if(step==='not_started') start(); setTimeout(()=>handleClient(btn.dataset.sample), speaking?1200:80); }));
+window.speechSynthesis && window.speechSynthesis.onvoiceschanged && (window.speechSynthesis.onvoiceschanged=()=>log('voix chargées'));
+reset();
 </script>
 </body>
 </html>
