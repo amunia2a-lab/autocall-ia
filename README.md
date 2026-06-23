@@ -1,13 +1,13 @@
-# AutoCall AI — V19
+# AutoCall AI — V20
 
-Corrections :
-- onglets Paramètres cliquables (IA & Réponses, Notifications, Intégrations, Sécurité, Sauvegarde) ;
-- statut Traité / À rappeler persistant côté API ;
-- notes internes sauvegardées et réaffichées ;
-- badge Traité en vert, À rappeler en orange, À traiter en rouge, Nouveau en violet ;
-- interface premium V18 conservée.
+Base stable : V18 validée.
 
-À remplacer dans GitHub :
-- `index.html`
-- `api/demandes.js`
-- `api/status.js` si besoin uniquement.
+Corrections appliquées sans modifier l'interface validée :
+- onglets Paramètres cliquables ;
+- statut Traité persistant et badge vert ;
+- statut À rappeler en orange ;
+- notes internes sauvegardées ;
+- synchro demandes conservée ;
+- API demandes accepte PATCH/PUT pour mettre à jour le statut.
+
+À remplacer sur GitHub : `index.html` et le dossier `api`.
