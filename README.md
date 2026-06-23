@@ -1,8 +1,14 @@
-# AutoCall AI — V17 ordinateur
+# AutoCall AI — V18 interface premium
 
-Corrections :
-- Onglets Aujourd’hui / Hier / Cette semaine fonctionnels.
-- Pages Clients, Paramètres et Connexion téléphone fonctionnelles.
-- Notes internes enregistrées localement et réaffichées dans la fiche.
-- Design validé conservé.
-- API demandes incluse pour conserver la synchronisation PC/mobile.
+Version V18 : refonte visuelle ordinateur inspirée de l'esquisse validée.
+
+À remplacer sur GitHub :
+- `index.html`
+- conserver/remplacer le dossier `api` si nécessaire (`demandes.js`, `status.js`)
+
+Conservé :
+- synchronisation des demandes
+- onglets Aujourd'hui / Hier / Cette semaine
+- Clients / Paramètres / Connexion téléphone
+- notes internes
+- test vocal mobile
