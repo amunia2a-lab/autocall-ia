@@ -15,7 +15,7 @@ function readBody(req) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -26,6 +26,22 @@ module.exports = async function handler(req, res) {
   if (req.method === 'DELETE') {
     store.length = 0;
     return res.status(200).json({ ok: true, demandes: store });
+  }
+
+
+  if (req.method === 'PATCH') {
+    const body = await readBody(req);
+    const id = body.id;
+    const idx = store.findIndex(d => d.id === id);
+    if (idx === -1) return res.status(404).json({ ok: false, error: 'Demande introuvable' });
+    const allowed = ['statut','status','notes','resume','preference','telephone','nom','plaque','motif','categorie','priorite'];
+    for (const key of allowed) {
+      if (Object.prototype.hasOwnProperty.call(body, key)) {
+        if (key === 'status') store[idx].statut = body[key];
+        else store[idx][key] = body[key];
+      }
+    }
+    return res.status(200).json({ ok: true, demande: store[idx], demandes: store });
   }
 
   if (req.method === 'POST') {
@@ -44,7 +60,8 @@ module.exports = async function handler(req, res) {
       resume: body.resume || 'Le client souhaite connaître l’avancement de son véhicule. Le secrétariat du garage doit vérifier le dossier et le recontacter.',
       statut: body.statut || 'À traiter',
       priorite: body.priorite || 'Normale',
-      transcription: Array.isArray(body.transcription) ? body.transcription : []
+      transcription: Array.isArray(body.transcription) ? body.transcription : [],
+      notes: Array.isArray(body.notes) ? body.notes : []
     };
     store.unshift(demande);
     return res.status(200).json({ ok: true, demande, demandes: store });
