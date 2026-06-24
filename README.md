@@ -1,13 +1,15 @@
-# AutoCall AI — V22 propre
+# AutoCall AI — V23 propre
 
-Base : V18 stable.
+Base V22/V18 stable.
 
-Modifications appliquées :
-- restauration de la vue Demandes ;
-- nouveau tableau validé : heure à gauche, statut à côté du nom, téléphone + plaque sous le client ;
-- plaque style immatriculation ;
-- fiche client/détail restaurée comme la version stable ;
-- statuts persistants localement ;
-- notes internes conservées.
+Corrections :
+- affichage Demandes sécurisé : si les périodes sont mal formatées, les demandes restent visibles ;
+- fiche client protégée/restaurée ;
+- tableau validé conservé ;
+- clic sur “APPEL EN COURS” ouvre le test vocal IA sur ordinateur ;
+- API Vercel conservée.
 
-Remplacer `index.html` sur GitHub et garder le dossier `api` existant.
+À remplacer sur GitHub :
+- index.html
+- dossier api si besoin
+- package.json si besoin
