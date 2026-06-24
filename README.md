@@ -1,15 +1,11 @@
-# AutoCall AI — V23 propre
+# AutoCall AI — V24
 
-Base V22/V18 stable.
+Base stable conservée.
 
-Corrections :
-- affichage Demandes sécurisé : si les périodes sont mal formatées, les demandes restent visibles ;
-- fiche client protégée/restaurée ;
-- tableau validé conservé ;
-- clic sur “APPEL EN COURS” ouvre le test vocal IA sur ordinateur ;
-- API Vercel conservée.
-
-À remplacer sur GitHub :
-- index.html
-- dossier api si besoin
-- package.json si besoin
+Modifications :
+- test vocal ordinateur remis au propre, en plein écran premium ;
+- bouton APPEL EN COURS ouvre la simulation IA proprement ;
+- notifications effaçables depuis la cloche ;
+- onglets Paramètres fonctionnels : Général, IA & Réponses, Notifications, Intégrations, Sécurité, Sauvegarde ;
+- notes internes sauvegardées et affichées dans le volet droit + aperçu sur la ligne de demande ;
+- design général de la V22/V23 conservé.
