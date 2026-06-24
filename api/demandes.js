@@ -15,7 +15,7 @@ function readBody(req) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -26,18 +26,6 @@ module.exports = async function handler(req, res) {
   if (req.method === 'DELETE') {
     store.length = 0;
     return res.status(200).json({ ok: true, demandes: store });
-  }
-
-  if (req.method === 'PATCH' || req.method === 'PUT') {
-    const body = await readBody(req);
-    const item = store.find(d => d.id === body.id);
-    if (!item) return res.status(404).json({ ok:false, error:'Demande introuvable' });
-    if (body.statut) item.statut = body.statut;
-    if (body.note) {
-      item.notes = Array.isArray(item.notes) ? item.notes : [];
-      item.notes.push({ text: body.note, at: new Date().toISOString() });
-    }
-    return res.status(200).json({ ok:true, demande:item, demandes:store });
   }
 
   if (req.method === 'POST') {
